@@ -1,9 +1,12 @@
 import './App.scss'
 import AppRouter from './AppRouter'
+import { StorageProvider } from './contexts/StorageContext'
 
 function App() {
     return (
-        <AppRouter/>
+        <StorageProvider>
+            <AppRouter/>
+        </StorageProvider>
     )
 }
 

@@ -4,25 +4,36 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useStorageContext } from "../contexts/StorageContext";
 import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TextFieldCustom from './../components/textField/textField';
 import TypographyCustom from './../components/typography/typography';
 
+
 function Form() {
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
 
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(null); // Inicialize com null
+    const [endDate, setEndDate] = useState(null); // Inicialize com null
     const [food, setFood] = useState("");
     const [observation, setObservation] = useState("");
 
-    function handleStorage() {
+    const { storageData, updateData } = useStorageContext();
+
+    const handleStorage = () => {
         console.log("Data Início:", startDate);
         console.log("Data Final:", endDate);
         console.log("O que comeu:", food);
         console.log("Observações:", observation);
+
+        const data = { startDate, endDate, food, observation };
+        updateData(type, data);
+    }
+
+    if (!type) {
+        return <div>Erro: Tipo de dado não especificado.</div>;
     }
 
     return (
@@ -47,46 +58,46 @@ function Form() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     {type === 'sleep' || type === 'feeding' ? (
                         <>
-                            <DateTimePicker 
-                                label={type === 'sleep' ? "Data Início" : "Data Início da Alimentação"} 
-                                onChange={(newValue) => setStartDate(newValue)} 
-                                value={startDate} 
+                            <DateTimePicker
+                                label={type === 'sleep' ? "Data Início" : "Data Início da Alimentação"}
+                                onChange={(newValue) => setStartDate(newValue)}
+                                value={startDate || null}
                             />
-                            <DateTimePicker 
-                                label={type === 'sleep' ? "Data Final" : "Data Final da Alimentação"} 
-                                onChange={(newValue) => setEndDate(newValue)} 
-                                value={endDate} 
+                            <DateTimePicker
+                                label={type === 'sleep' ? "Data Final" : "Data Final da Alimentação"}
+                                onChange={(newValue) => setEndDate(newValue)}
+                                value={endDate || null}
                             />
                         </>
                     ) : null}
 
                     {type === 'feeding' ? (
-                        <TextFieldCustom 
-                            label={"O que comeu"} 
-                            value={food} 
-                            onChange={(e) => setFood(e.target.value)} 
+                        <TextFieldCustom
+                            label={"O que comeu"}
+                            value={food}
+                            onChange={(e) => setFood(e.target.value)}
                         />
                     ) : null}
 
                     {type === 'sleep' || type === 'feeding' || type === 'diaper' ? (
-                        <TextFieldCustom 
-                            label={"Observações"} 
-                            value={observation} 
-                            onChange={(e) => setObservation(e.target.value)} 
+                        <TextFieldCustom
+                            label={"Observações"}
+                            value={observation}
+                            onChange={(e) => setObservation(e.target.value)}
                         />
                     ) : null}
 
                     {type === 'diaper' ? (
                         <>
-                            <DateTimePicker 
-                                label={"Data de Troca"} 
-                                onChange={(newValue) => setStartDate(newValue)} 
-                                value={startDate} 
+                            <DateTimePicker
+                                label={"Data de Troca"}
+                                onChange={(newValue) => setStartDate(newValue)}
+                                value={startDate || null}
                             />
-                            <TextFieldCustom 
-                                label={"Observações"} 
-                                value={observation} 
-                                onChange={(e) => setObservation(e.target.value)} 
+                            <TextFieldCustom
+                                label={"Observações"}
+                                value={observation}
+                                onChange={(e) => setObservation(e.target.value)}
                             />
                         </>
                     ) : null}
