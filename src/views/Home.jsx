@@ -37,7 +37,6 @@ function Home() {
                         color="primary"
                         size="medium"
                         sx={{ marginBottom: 1 }}
-                        onClick={() => navigate("/settings")}
                     >
                         <Avatar
                             src='https://cdn-icons-png.flaticon.com/512/7890/7890168.png'
@@ -56,7 +55,7 @@ function Home() {
                         color="primary"
                         size="medium"
                         sx={{ marginBottom: 1, border: 1 }}
-                        onClick={() => navigate("/form")}
+                        onClick={() => navigate("/settings")}
                     >
                         <SettingsIcon sx={{ fontSize: 40 }} />
                     </IconButton>
@@ -102,7 +101,7 @@ function Home() {
                             width: 45,
                             height: 45,
                         }}
-                        onClick={() => navigate("/form")}
+                        onClick={() => navigate("/form?type=sleep")}
                     >
                         <Typography variant="h6">+</Typography>
                     </IconButton>
@@ -145,7 +144,7 @@ function Home() {
                             width: 45,
                             height: 45,
                         }}
-                        onClick={() => navigate("/form")}
+                        onClick={() => navigate("/form?type=feeding")}
                     >
                         <Typography variant="h6">+</Typography>
                     </IconButton>
@@ -187,7 +186,7 @@ function Home() {
                             width: 45,
                             height: 45,
                         }}
-                        onClick={() => navigate("/form")}
+                        onClick={() => navigate("/form?type=diaper")}
                     >
                         <Typography variant="h6">+</Typography>
                     </IconButton>

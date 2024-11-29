@@ -1,10 +1,15 @@
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
-export default function DateTimePickerCustom({label}) {
+export default function DateTimePickerCustom({ label, onChange, value }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker label={label}/>
+            <DateTimePicker
+                label={label}
+                onChange={(newValue) => onChange(newValue)}
+                value={value ? value : dayjs()}
+            />
         </LocalizationProvider>
-    )
+    );
 }
