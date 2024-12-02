@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TextFieldCustom from './../components/textField/textField';
@@ -11,11 +12,13 @@ function SignIn() {
     const [errors, setErrors] = useState({
         email: false,
         password: false,
-    })
+    });
+
+    const { t } = useTranslation();
 
     function handleSignUp() {
         if (validate()) {
-            alert("sucesso")
+            alert(t("sucesso"));
         }
     }
 
@@ -49,41 +52,42 @@ function SignIn() {
             <TypographyCustom
                 variant={"h3"}
                 align={"center"}
-            >Entrar</TypographyCustom>
+            >
+                {t('sign_in')}
+            </TypographyCustom>
             <BoxCustom sx={{
                 display: "flex",
                 flexDirection: "column",
                 maxWidth: 400,
                 margin: "20px auto"
-
             }}>
                 <TextFieldCustom
-                    label={"E-mail do responsável"}
+                    label={t('email_label')}
                     type={"email"}
                     sx={{ mt: 2 }}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     error={errors.email}
-                    helperText={errors.email ? "E-mail inválido" : ""}
+                    helperText={errors.email ? t("invalid_email") : ""}
                 />
                 <TextFieldCustom
-                    label={"Senha"}
+                    label={t('password_label')}
                     type={"password"}
                     sx={{ mt: 2 }}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     error={errors.password}
-                    helperText={errors.password ? "Senha inválida" : ""}
+                    helperText={errors.password ? t("invalid_password") : ""}
                 />
                 <ButtonCustom
                     sx={{ mt: 2 }}
                     onClick={handleSignUp}
                 >
-                    Entrar
+                    {t('sign_in_button')}
                 </ButtonCustom>
             </BoxCustom>
         </BoxCustom>
     )
 }
 
-export default SignIn
+export default SignIn;

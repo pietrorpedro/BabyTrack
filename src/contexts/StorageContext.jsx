@@ -1,57 +1,138 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { createContext, useContext } from "react";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const StorageContext = createContext();
-
 export const useStorageContext = () => {
     return useContext(StorageContext);
 }
 
 export const StorageProvider = ({ children }) => {
-    const [storageData, setStorageData] = useState({
-        sleep: [],
-        feeding: [],
-        diaper: [],
-    });
 
-    const saveToLocalStorage = (type, data) => {
-        if (typeof window !== "undefined") {
-            localStorage.setItem(type, JSON.stringify(data));
+    const updateData = async (table, id, data) => {
+        try {
+            const { error } = await supabase
+                .from(table)
+                .update(data)
+                .eq('id', id);
+            if (error) throw error;
+            console.log(`Dados atualizados ${table} => `, data);
+        } catch (error) {
+            console.log(`Erro ao atualizar ${table} => `, error.message);
         }
     };
 
-    const loadFromLocalStorage = (type) => {
-        if (typeof window !== "undefined") {
-            const data = localStorage.getItem(type);
-            return data ? JSON.parse(data) : [];
+    // save
+    const insertData = async (table, data) => {
+        try {
+            const { error } = await supabase.from(table).insert(data);
+            if (error) throw error;
+            console.log(`Dados inseridos ${table} => `, data);
+        } catch (error) {
+            console.log(`Erro ao inserir ${table} => `, error.message);
         }
-        return [];
-    }
+    };
 
-    useEffect(() => {
-        const types = ["sleep", "feeding", "diaper"];
-        const initialData = {};
+    const saveSleepData = async (data) => {
+        await insertData("sleep", data);
+    };
 
-        types.forEach((type) => {
-            initialData[type] = loadFromLocalStorage(type);
-        });
+    const saveDiaperData = async (data) => {
+        await insertData("diaper", data);
+    };
 
-        setStorageData(initialData);
-    }, []);
+    const saveEatData = async (data) => {
+        await insertData("eat", data);
+    };
 
-    const updateData = (type, data) => {
-        setStorageData((prevData) => {
-            const updatedData = {
-                ...prevData,
-                [type]: [...prevData[type], data]
-            };
-            saveToLocalStorage(type, updatedData[type]);
-            return updatedData;
-        });
+    // get
+    const getSleepData = async () => {
+        try {
+            const { data, error } = await supabase.from("sleep").select("*");
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error("Erro ao recuperar dados de sleep:", error.message);
+        }
+    };
+
+    const getDiaperData = async () => {
+        try {
+            const { data, error } = await supabase.from("diaper").select("*");
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error("Erro ao recuperar dados de diaper:", error.message);
+        }
+    };
+
+    const getEatData = async () => {
+        try {
+            const { data, error } = await supabase.from("eat").select("*");
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error("Erro ao recuperar dados de eat:", error.message);
+        }
+    };
+
+    const updateSleepData = async (id, data) => {
+        await updateData("sleep", id, data);
+    };
+    
+    const updateDiaperData = async (id, data) => {
+        await updateData("diaper", id, data);
+    };
+    
+    const updateEatData = async (id, data) => {
+        await updateData("eat", id, data);
+    };
+
+    const deleteData = async (table, id) => {
+        try {
+            const { error } = await supabase
+                .from(table)
+                .delete()
+                .eq('id', id);
+            if (error) throw error;
+            console.log(`Dados deletados ${table} => `, id);
+        } catch (error) {
+            console.log(`Erro ao deletar ${table} => `, error.message);
+        }
+    };
+    
+    const deleteSleepData = async (id) => {
+        await deleteData("sleep", id);
+    };
+    
+    const deleteDiaperData = async (id) => {
+        await deleteData("diaper", id);
+    };
+    
+    const deleteEatData = async (id) => {
+        await deleteData("eat", id);
     };
 
     return (
-        <StorageContext.Provider value={{ storageData, updateData }}>
+        <StorageContext.Provider value={{
+            saveSleepData,
+            saveDiaperData,
+            saveEatData,
+            updateSleepData,
+            updateDiaperData,
+            updateEatData,
+            getSleepData,
+            getDiaperData,
+            getEatData,
+            deleteSleepData,
+            deleteDiaperData,
+            deleteEatData
+        }}>
             {children}
         </StorageContext.Provider>
-    );
+    )
 }

@@ -1,20 +1,37 @@
-import { Avatar, Grid2, IconButton, Typography } from '@mui/material';
-import BoxCustom from './../components/box/box';
-
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import SettingsIcon from '@mui/icons-material/Settings';
-
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import HotelIcon from '@mui/icons-material/Hotel';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
-
-import { useState } from 'react';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Avatar, Box, Grid2, IconButton, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
-import TypographyCustom from './../components/typography/typography';
+import CardItem from '../components/cardItem/cardItem';
+import { useStorageContext } from '../contexts/StorageContext';
+import BoxCustom from './../components/box/box';
 
 function Home() {
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
+    const { t } = useTranslation();
+    const { getEatData, getDiaperData, getSleepData } = useStorageContext();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const sleepData = await getSleepData();
+            const diaperData = await getDiaperData();
+            const eatData = await getEatData();
+
+            setItems([
+                { type: "sleep", data: sleepData },
+                { type: "eat", data: eatData },
+                { type: "diaper", data: diaperData },
+            ]);
+        };
+
+        fetchData();
+    }, [getEatData, getDiaperData, getSleepData, t]);
 
     return (
         <BoxCustom sx={{}}>
@@ -29,7 +46,7 @@ function Home() {
                         <LeaderboardIcon sx={{ fontSize: 40 }} />
                     </IconButton>
                     <Typography variant="body1">52 cm</Typography>
-                    <Typography variant="body2">Comprimento</Typography>
+                    <Typography variant="body2">{t('length_label')}</Typography>
                 </Grid2>
 
                 <Grid2 xs={12} sm={4} md={3} lg={3} textAlign="center" padding={1} borderRadius={3} minWidth={100}>
@@ -47,7 +64,7 @@ function Home() {
                         />
                     </IconButton>
                     <Typography variant="body1">Fulano</Typography>
-                    <Typography variant="body2">X dia(s)</Typography>
+                    <Typography variant="body2">{t('days')}</Typography>
                 </Grid2>
 
                 <Grid2 xs={12} sm={4} textAlign="center" padding={1} borderRadius={3} minWidth={100}>
@@ -60,11 +77,11 @@ function Home() {
                         <SettingsIcon sx={{ fontSize: 40 }} />
                     </IconButton>
                     <Typography variant="body1">3,80 kg</Typography>
-                    <Typography variant="body2">Peso</Typography>
+                    <Typography variant="body2">{t('weight_label')}</Typography>
                 </Grid2>
             </Grid2>
 
-            <Grid2 container justifyContent="space-evenly" alignItems="center" spacing={1} marginBottom={5}>
+            <Grid2 container justifyContent="space-evenly" alignItems="center" spacing={0.5} marginBottom={5}>
                 <Grid2
                     minWidth={100}
                     xs={12}
@@ -85,8 +102,8 @@ function Home() {
                     >
                         <HotelIcon sx={{ fontSize: 40 }} />
                     </IconButton>
-                    <Typography variant="body1">Sono</Typography>
-                    <Typography variant="body2">Adicione algo</Typography>
+                    <Typography variant="body1">{t('go_to_sleep')}</Typography>
+                    <Typography variant="body2">{t('add_sleep')}</Typography>
 
                     <IconButton
                         color="secondary"
@@ -106,7 +123,6 @@ function Home() {
                         <Typography variant="h6">+</Typography>
                     </IconButton>
                 </Grid2>
-
 
                 <Grid2
                     minWidth={100}
@@ -128,8 +144,8 @@ function Home() {
                     >
                         <LocalDiningIcon sx={{ fontSize: 40 }} />
                     </IconButton>
-                    <Typography variant="body1">Alimentação</Typography>
-                    <Typography variant="body2">Adicione algo</Typography>
+                    <Typography variant="body1">{t('go_to_eat')}</Typography>
+                    <Typography variant="body2">{t('add_eat')}</Typography>
 
                     <IconButton
                         color="secondary"
@@ -144,7 +160,7 @@ function Home() {
                             width: 45,
                             height: 45,
                         }}
-                        onClick={() => navigate("/form?type=feeding")}
+                        onClick={() => navigate("/form?type=eat")}
                     >
                         <Typography variant="h6">+</Typography>
                     </IconButton>
@@ -170,8 +186,8 @@ function Home() {
                     >
                         <ChildCareIcon sx={{ fontSize: 40 }} />
                     </IconButton>
-                    <Typography variant="body1">Fralda</Typography>
-                    <Typography variant="body2">Adicione algo</Typography>
+                    <Typography variant="body1">{t('go_to_diaper')}</Typography>
+                    <Typography variant="body2">{t('add_diaper')}</Typography>
 
                     <IconButton
                         color="secondary"
@@ -194,14 +210,27 @@ function Home() {
             </Grid2>
 
             <BoxCustom>
-                {items.length > 0 ? (
-                    <TypographyCustom>Tudo aqui</TypographyCustom>
-                ) : (
-                    <Typography variant="h5" color='textDisabled' align='center' marginTop={20}>Nada aqui...</Typography>
+                {items.map((item, index) => (
+                    item.data.length > 0 && (
+                        <Box key={index} sx={{ marginBottom: 2 }}>
+                            {item.data.map((data, dataIndex) => (
+                                <CardItem
+                                        title={t(`go_to_${item.type}`)}
+                                        data={data}
+                                        index={dataIndex}
+                                        key={dataIndex}
+                                        onEdit={() => navigate(`/form?type=${item.type}&id=${data.id}`)}
+                                />
+                            ))}
+                        </Box>
+                    )
+                ))}
+                {items.every(item => item.data.length === 0) && (
+                    <Typography variant="h5" color='textDisabled' align='center' marginTop={20}>{t('nothing_here')}</Typography>
                 )}
             </BoxCustom>
         </BoxCustom>
-    )
+    );
 }
 
 export default Home;

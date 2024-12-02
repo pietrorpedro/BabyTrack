@@ -1,11 +1,15 @@
-import './App.scss'
-import AppRouter from './AppRouter'
-import { StorageProvider } from './contexts/StorageContext'
+import './App.scss';
+import AppRouter from './AppRouter';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { StorageProvider } from './contexts/StorageContext';
+import "./i18next";
 
 function App() {
     return (
         <StorageProvider>
-            <AppRouter/>
+            <LanguageProvider>
+                <AppRouter/>
+            </LanguageProvider>
         </StorageProvider>
     )
 }

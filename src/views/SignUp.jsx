@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TextFieldCustom from './../components/textField/textField';
@@ -15,11 +16,13 @@ function SignUp() {
         email: false,
         password: false,
         confirmPassword: false
-    })
+    });
+
+    const { t } = useTranslation();
 
     function handleSignUp() {
         if (validate()) {
-            alert("sucesso")
+            alert(t("sucesso"));
         }
     }
 
@@ -61,59 +64,60 @@ function SignUp() {
             <TypographyCustom
                 variant={"h3"}
                 align={"center"}
-            >Criar Conta</TypographyCustom>
+            >
+                {t('sign_up')}
+            </TypographyCustom>
             <BoxCustom sx={{
                 display: "flex",
                 flexDirection: "column",
                 maxWidth: 400,
                 margin: "20px auto"
-
             }}>
                 <TextFieldCustom
-                    label={"Nome do Bebê"}
+                    label={t('baby_name')}
                     type={"text"}
                     sx={{ mt: 2 }}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     error={errors.username}
-                    helperText={errors.username ? "Nome do bebê inválido" : ""}
+                    helperText={errors.username ? t("invalid_baby_name") : ""}
                 />
                 <TextFieldCustom
-                    label={"E-mail do responsável"}
+                    label={t('responsible_email')}
                     type={"email"}
                     sx={{ mt: 2 }}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     error={errors.email}
-                    helperText={errors.email ? "E-mail inválido" : ""}
+                    helperText={errors.email ? t("invalid_email") : ""}
                 />
                 <TextFieldCustom
-                    label={"Senha"}
+                    label={t('password')}
                     type={"password"}
                     sx={{ mt: 2 }}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     error={errors.password}
-                    helperText={errors.password ? "Senha inválida" : ""}
+                    helperText={errors.password ? t("invalid_password") : ""}
                 />
                 <TextFieldCustom
-                    label={"Confirmar Senha"}
+                    label={t('confirm_password')}
                     type={"password"}
                     sx={{ mt: 2 }}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     error={errors.confirmPassword}
-                    helperText={errors.confirmPassword ? "As senhas não são iguais" : ""}
+                    helperText={errors.confirmPassword ? t("password_mismatch") : ""}
                 />
                 <ButtonCustom
                     sx={{ mt: 2 }}
                     onClick={handleSignUp}
                 >
-                    Criar Conta
+                    {t('create_account_button')}
                 </ButtonCustom>
             </BoxCustom>
         </BoxCustom>
     )
 }
 
-export default SignUp
+export default SignUp;
