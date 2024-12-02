@@ -41,5 +41,9 @@
     "start": "Start",
     "date": "Date",
     "email_label": "E-mail",
-    "password_label": "Password"
+    "password_label": "Password",
+    "times": "times",
+    "changed_diaper": "Changed the diaper",
+    "ate": "ate",
+    "slept": "slept"
 }

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TypographyCustom from './../components/typography/typography';
@@ -7,6 +8,7 @@ import { useLanguageContext } from './../contexts/LanguageContext';
 function Settings() {
     const { t } = useTranslation();
     const { changeLanguage } = useLanguageContext();
+    const navigation = useNavigate()
 
     return (
         <BoxCustom>
@@ -23,6 +25,9 @@ function Settings() {
                 </ButtonCustom>
                 <ButtonCustom sx={{ mt: 2 }} onClick={() => changeLanguage('es')}>
                     {t('spanish')}
+                </ButtonCustom>
+                <ButtonCustom sx={{ mt: 2 }} onClick={() => navigation("/signout")}>
+                    Logout
                 </ButtonCustom>
             </BoxCustom>
         </BoxCustom>

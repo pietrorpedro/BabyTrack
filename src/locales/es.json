@@ -41,5 +41,9 @@
     "date": "Fecha",
     "email_label": "Correo electrónico",
     "password_label": "Contraseña",
-    "sign_in": "Iniciar sesión"
+    "sign_in": "Iniciar sesión",
+    "times": "veces",
+    "changed_diaper": "Cambió el pañal",
+    "ate": "comió",
+    "slept": "dormí"
 }

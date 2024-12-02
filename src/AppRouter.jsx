@@ -9,6 +9,7 @@ import Form from "./views/Form";
 import Home from "./views/Home";
 import Settings from "./views/Settings";
 import SignIn from "./views/SignIn";
+import SignOut from "./views/SignOut";
 import SignUp from "./views/SignUp";
 
 function AppRouter() {
@@ -17,6 +18,7 @@ function AppRouter() {
             <Routes>
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/signout" element={<SignOut/>}/>
 
                 <Route
                     path="/"

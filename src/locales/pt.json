@@ -41,5 +41,9 @@
     "date": "Data",
     "email_label": "E-mail",
     "password_label": "Senha",
-    "sign_in": "Entrar"
+    "sign_in": "Entrar",
+    "times": "vezes",
+    "changed_diaper": "trocou a fralda",
+    "ate": "comeu",
+    "slept": "dormiu"
 }
