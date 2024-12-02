@@ -23,6 +23,7 @@
     "add_button": "Add",
     "update_button": "Update",
     "sign_up": "Sign Up",
+    "sign_in": "Sign In",
     "baby_name": "Baby's Name",
     "responsible_email": "Responsible's Email",
     "password": "Password",
@@ -38,5 +39,7 @@
     "spanish": "Spanish",
     "end": "End",
     "start": "Start",
-    "date": "Date"
+    "date": "Date",
+    "email_label": "E-mail",
+    "password_label": "Password"
 }

@@ -1,24 +1,36 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TextFieldCustom from './../components/textField/textField';
 import TypographyCustom from './../components/typography/typography';
 
 function SignIn() {
-
+    const { signIn } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({
         email: false,
         password: false,
     });
-
+    const [loading, setLoading] = useState(false);
+    const navigation = useNavigate();
     const { t } = useTranslation();
 
-    function handleSignUp() {
+    function handleSignIn() {
         if (validate()) {
-            alert(t("sucesso"));
+            setLoading(true);
+            signIn(email, password)
+                .then(() => {
+                    setLoading(false);
+                    navigation("/")
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    alert(error.message)
+                });
         }
     }
 
@@ -28,10 +40,8 @@ function SignIn() {
 
         let valid = true;
         let errorsObj = {
-            username: false,
             email: false,
             password: false,
-            confirmPassword: false
         };
 
         if (!emailRegex.test(email.trim())) {
@@ -81,9 +91,10 @@ function SignIn() {
                 />
                 <ButtonCustom
                     sx={{ mt: 2 }}
-                    onClick={handleSignUp}
+                    onClick={handleSignIn}
+                    disabled={loading}
                 >
-                    {t('sign_in_button')}
+                    {loading ? t('loading') : t('sign_in')}
                 </ButtonCustom>
             </BoxCustom>
         </BoxCustom>

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TextFieldCustom from './../components/textField/textField';
 import TypographyCustom from './../components/typography/typography';
 
 function SignUp() {
-
+    const { signUp } = useAuth();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,14 +17,23 @@ function SignUp() {
         username: false,
         email: false,
         password: false,
-        confirmPassword: false
+        confirmPassword: false,
     });
-
+    const [loading, setLoading] = useState(false);
+    const navigation = useNavigate();
     const { t } = useTranslation();
 
-    function handleSignUp() {
+    async function handleSignUp() {
         if (validate()) {
-            alert(t("sucesso"));
+            setLoading(true);
+            try {
+                await signUp(email, password);
+                setLoading(false);
+                navigation("/signin");
+            } catch (error) {
+                setLoading(false);
+                alert(t("erro_registro"));
+            }
         }
     }
 
@@ -35,7 +46,7 @@ function SignUp() {
             username: false,
             email: false,
             password: false,
-            confirmPassword: false
+            confirmPassword: false,
         };
 
         if (username.trim().length < 3) {
@@ -112,8 +123,9 @@ function SignUp() {
                 <ButtonCustom
                     sx={{ mt: 2 }}
                     onClick={handleSignUp}
+                    disabled={loading}
                 >
-                    {t('create_account_button')}
+                    {loading ? t('loading') : t('create_account_button')}
                 </ButtonCustom>
             </BoxCustom>
         </BoxCustom>
