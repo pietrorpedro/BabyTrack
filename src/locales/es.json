@@ -45,5 +45,18 @@
     "times": "veces",
     "changed_diaper": "Cambió el pañal",
     "ate": "comió",
-    "slept": "dormí"
+    "slept": "dormí",
+    "change_name": "Alterar nombre",
+    "change_weight": "Alterar peso",
+    "change_length": "Alterar medida",
+    "update_baby": "Actualizar bebé",
+    "language": "Idioma",
+    "new_name": "Nuevo nombre",
+    "new_weigth": "Nuevo peso",
+    "new_length": "Nueva medida",
+    "diaper_type": "Tipo de sujeira",
+    "poop": "caca",
+    "pee": "pis",
+    "both": "ambas",
+    "type": "tipo"
 }

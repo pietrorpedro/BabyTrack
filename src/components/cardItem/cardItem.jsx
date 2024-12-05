@@ -24,7 +24,7 @@ export default function CardItem({data, index, onEdit, title}) {
                     textAlign: "center",
                 }}>
                     <Typography>{t('start')}: {dayjs(data.startdate).format("HH:mm")}</Typography>
-                    <Typography>{t('end')}: {dayjs(data.enddate).format("HH:mm")}</Typography>
+                    {data.enddate && <Typography>{t('end')}: {dayjs(data.enddate).format("HH:mm")}</Typography>}
                     <Typography>{t('date')}: {dayjs(data.startdate).format("DD/MM/YYYY")}</Typography>
                 </Box>
                 <Box
@@ -34,6 +34,7 @@ export default function CardItem({data, index, onEdit, title}) {
                 >
                     {data.food && <Typography variant="body1">{t('food')}: {data.food}</Typography>}
                     {data.observation && <Typography variant="body1">{t('observation')}: {data.observation}</Typography>}
+                    {data.type && <Typography variant="body1">{t('type')}: {data.type}</Typography>}
                 </Box>
             </CardContent>
 

@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
@@ -13,6 +13,7 @@ export const useStorageContext = () => {
 
 export const StorageProvider = ({ children }) => {
 
+    // supabaseeee
     const updateData = async (table, id, data) => {
         try {
             const { error } = await supabase
@@ -117,6 +118,31 @@ export const StorageProvider = ({ children }) => {
         await deleteData("eat", id);
     };
 
+    // mudar bebe local
+
+    // dados iniciais pra mudar nas configs
+    const [babyData, setBabyData] = useState({
+        name: "Fulano",
+        weight: "3.80",
+        length: "52",
+    })
+
+    const updateBabyName = (name) => {
+        setBabyData((prev) => ({...prev, name}));
+    }
+
+    const updateBabyWeight = (weight) => {
+        setBabyData((prev) => ({...prev, weight}));
+    }
+
+    const updateBabyLength = (length) => {
+        setBabyData((prev) => ({...prev, length}));
+    }
+
+    const getBabyData = () => {
+        return babyData;
+    }
+
     return (
         <StorageContext.Provider value={{
             saveSleepData,
@@ -130,7 +156,11 @@ export const StorageProvider = ({ children }) => {
             getEatData,
             deleteSleepData,
             deleteDiaperData,
-            deleteEatData
+            deleteEatData,
+            getBabyData,
+            updateBabyLength,
+            updateBabyName,
+            updateBabyWeight,
         }}>
             {children}
         </StorageContext.Provider>

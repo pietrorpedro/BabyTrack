@@ -1,9 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import BoxCustom from "../../components/box/box";
 import ButtonCustom from '../../components/button/button';
@@ -17,6 +18,7 @@ function Edit() {
     const type = searchParams.get("type");
     const id = searchParams.get("id");
     const navigation = useNavigate();
+    const {t} = useTranslation();
 
     const {
         getSleepData,
@@ -35,6 +37,8 @@ function Edit() {
     const [endDate, setEndDate] = useState(null);
     const [food, setFood] = useState("");
     const [observation, setObservation] = useState("");
+
+    const [diaperType, setDiaperType] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,7 +91,7 @@ function Edit() {
             data = { startdate: startDate.toISOString(), enddate: endDate.toISOString(), observation };
             await updateSleepData(id, data);
         } else if (type === "diaper") {
-            data = { startdate: startDate.toISOString(), observation };
+            data = { startdate: startDate.toISOString(), observation, type: diaperType };
             await updateDiaperData(id, data);
         }
 
@@ -113,7 +117,7 @@ function Edit() {
 
     return (
         <BoxCustom>
-            <Header title={"Edit"} update onDelete={handleDelete}/>
+            <Header title={"Edit"} update onDelete={handleDelete} />
             <TypographyCustom variant="h5" align="center" sx={{ marginBottom: 2, marginTop: 10 }}>
                 Editar {type}
             </TypographyCustom>
@@ -124,11 +128,24 @@ function Edit() {
                         value={startDate}
                         onChange={(newValue) => setStartDate(newValue)}
                     />
-                    <DateTimePicker
-                        label="End Time"
-                        value={endDate}
-                        onChange={(newValue) => setEndDate(newValue)}
-                    />
+                    {type !== "diaper" && (
+                        <DateTimePicker
+                            label="End Time"
+                            value={endDate}
+                            onChange={(newValue) => setEndDate(newValue)}
+                        />
+                    )}
+                    {type === "diaper" && (
+                <Select
+                value={diaperType}
+                label={t('diaper_type')}
+                onChange={(e) => setDiaperType(e.target.value)}
+            >
+                <MenuItem value={t('poop')}>{t('poop')}</MenuItem>
+                <MenuItem value={t('pee')}>{t('pee')}</MenuItem>
+                <MenuItem value={t('both')}>{t('both')}</MenuItem>
+            </Select>
+                    )}
                 </LocalizationProvider>
 
                 {type === "eat" && (

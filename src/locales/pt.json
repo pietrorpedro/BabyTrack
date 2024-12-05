@@ -45,5 +45,18 @@
     "times": "vezes",
     "changed_diaper": "trocou a fralda",
     "ate": "comeu",
-    "slept": "dormiu"
+    "slept": "dormiu",
+    "change_name": "Alterar nome",
+    "change_weight": "Alterar peso",
+    "change_length": "Alterar medida",
+    "update_baby": "Atualizar bebê",
+    "language": "Idioma",
+    "new_name": "Novo nome",
+    "new_weigth": "Novo peso",
+    "new_length": "Novo comprimento",
+    "diaper_type": "Tipo de sujeira",
+    "poop": "cocô",
+    "pee": "xixi",
+    "both": "ambos",
+    "type": "tipo"
 }

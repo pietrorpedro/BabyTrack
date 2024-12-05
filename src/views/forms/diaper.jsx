@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -22,6 +22,9 @@ dayjs.extend(timezone);
 function Diaper() {
     const [startDate, setStartDate] = useState(null);
     const [observation, setObservation] = useState("");
+    // tipo da sujeira na fralda (xixi, coco ambas) (não pensei num nome melhor)
+    const [type, setType] = useState("");
+
     const navigation = useNavigate();
     const { t } = useTranslation();
 
@@ -30,11 +33,12 @@ function Diaper() {
     const handleStorage = async () => {
         const data = {
             startdate: startDate ? startDate.toISOString() : null,
-            endate: null,
-            observation
+            observation,
+            type
         }
 
         try {
+            console.log(data)
             await saveDiaperData(data);
             alert("Salvo");
 
@@ -63,6 +67,17 @@ function Diaper() {
                         value={startDate || null}
                     />
                 </LocalizationProvider>
+
+                <Select
+                    value={type}
+                    label={t('diaper_type')}
+                    onChange={(e) => setType(e.target.value)}
+                >
+                    <MenuItem value={t('poop')}>{t('poop')}</MenuItem>
+                    <MenuItem value={t('pee')}>{t('pee')}</MenuItem>
+                    <MenuItem value={t('both')}>{t('both')}</MenuItem>
+                </Select>
+
                 <TextFieldCustom
                     label={t('observation')}
                     value={observation}

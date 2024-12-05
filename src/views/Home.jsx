@@ -11,13 +11,17 @@ import CardItem from '../components/cardItem/cardItem';
 import { useStorageContext } from '../contexts/StorageContext';
 import BoxCustom from './../components/box/box';
 
+
 function Home() {
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { getEatData, getDiaperData, getSleepData } = useStorageContext();
+    const { getBabyData } = useStorageContext();
+
 
     useEffect(() => {
+        
         const fetchData = async () => {
             const sleepData = await getSleepData();
             const diaperData = await getDiaperData();
@@ -45,7 +49,7 @@ function Home() {
                     >
                         <LeaderboardIcon sx={{ fontSize: 40 }} />
                     </IconButton>
-                    <Typography variant="body1">52 cm</Typography>
+                    <Typography variant="body1">{getBabyData().length} cm</Typography>
                     <Typography variant="body2">{t('length_label')}</Typography>
                 </Grid2>
 
@@ -63,7 +67,7 @@ function Home() {
                             }}
                         />
                     </IconButton>
-                    <Typography variant="body1">Fulano</Typography>
+                    <Typography variant="body1">{getBabyData().name}</Typography>
                     <Typography variant="body2">{t('days')}</Typography>
                 </Grid2>
 
@@ -76,7 +80,7 @@ function Home() {
                     >
                         <SettingsIcon sx={{ fontSize: 40 }} />
                     </IconButton>
-                    <Typography variant="body1">3,80 kg</Typography>
+                    <Typography variant="body1">{getBabyData().weight} kg</Typography>
                     <Typography variant="body2">{t('weight_label')}</Typography>
                 </Grid2>
             </Grid2>

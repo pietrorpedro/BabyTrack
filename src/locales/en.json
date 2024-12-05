@@ -45,5 +45,18 @@
     "times": "times",
     "changed_diaper": "Changed the diaper",
     "ate": "ate",
-    "slept": "slept"
+    "slept": "slept",
+    "change_name": "Change name",
+    "change_weight": "Change weight",
+    "change_length": "Change length",
+    "update_baby": "Update baby",
+    "language": "Language",
+    "new_name": "New name",
+    "new_weigth": "New weight",
+    "new_length": "New length",
+    "diaper_type": "Tipo de sujeira",
+    "poop": "poop",
+    "pee": "pee",
+    "both": "both",
+    "type": "type"
 }
