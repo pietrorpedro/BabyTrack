@@ -44,7 +44,7 @@ function Home() {
     }, [getEatData, getDiaperData, getSleepData, t]);
 
     return (
-        <BoxCustom sx={{}}>
+        <BoxCustom sx={{maxWidth: "800px", margin: "0 auto"}}>
             <Grid2 container justifyContent="space-evenly" alignItems="flex-end" spacing={1} marginBottom={5}>
                 <Grid2 xs={12} sm={4} md={3} lg={3} textAlign="center" padding={1} borderRadius={3} minWidth={100}>
                     <IconButton
