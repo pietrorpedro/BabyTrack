@@ -6,6 +6,7 @@ import BoxCustom from './../components/box/box';
 import ButtonCustom from './../components/button/button';
 import TextFieldCustom from './../components/textField/textField';
 import TypographyCustom from './../components/typography/typography';
+import { useStorageContext } from './../contexts/StorageContext';
 
 function SignUp() {
     const { signUp } = useAuth();
@@ -23,11 +24,14 @@ function SignUp() {
     const navigation = useNavigate();
     const { t } = useTranslation();
 
+    const {updateBabyName} = useStorageContext();
+
     async function handleSignUp() {
         if (validate()) {
             setLoading(true);
             try {
                 await signUp(email, password);
+                updateBabyName(username)
                 setLoading(false);
                 navigation("/signin");
             } catch (error) {

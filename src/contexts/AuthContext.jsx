@@ -11,6 +11,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("auth") || false);
 
     useEffect(() => {
         const session = supabase.auth.getSession();
@@ -29,6 +30,10 @@ export const AuthProvider = ({ children }) => {
             }
         };
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("auth", isAuthenticated);
+    }, [isAuthenticated])
 
     const signUp = async (email, password) => {
         try {
@@ -54,6 +59,7 @@ export const AuthProvider = ({ children }) => {
 
     const signOut = async () => {
         try {
+            setIsAuthenticated(false);
             await supabase.auth.signOut();
             setUser(null);
         } catch (error) {
@@ -61,8 +67,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const getIsAuthenticated = () => {
+        const auth = localStorage.getItem("auth") || false;
+        return auth === "true";
+    }
+
     return (
-        <AuthContext.Provider value={{ user, loading, signUp, signIn, signOut }}>
+        <AuthContext.Provider value={{ user, loading, signUp, signIn, signOut, setIsAuthenticated, getIsAuthenticated, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

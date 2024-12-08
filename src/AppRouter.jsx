@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-const isAuthenticated = true;
+import { useAuth } from "./contexts/AuthContext";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -13,11 +13,15 @@ import SignOut from "./views/SignOut";
 import SignUp from "./views/SignUp";
 
 function AppRouter() {
+
+    const {isAuthenticated} = useAuth();
+    console.log(`AppRouter: isAuthenticated = ${isAuthenticated}`);
+
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/signin" element={<SignIn />} />
                 <Route path="/signout" element={<SignOut/>}/>
 
                 <Route

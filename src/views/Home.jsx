@@ -11,6 +11,8 @@ import CardItem from '../components/cardItem/cardItem';
 import { useStorageContext } from '../contexts/StorageContext';
 import BoxCustom from './../components/box/box';
 
+import { useAuth } from '../contexts/AuthContext';
+
 
 function Home() {
     const [items, setItems] = useState([]);
@@ -19,8 +21,12 @@ function Home() {
     const { getEatData, getDiaperData, getSleepData } = useStorageContext();
     const { getBabyData } = useStorageContext();
 
+    const {getIsAuthenticated} = useAuth();
+
 
     useEffect(() => {
+
+        console.log(`Autenticação HOME: ${getIsAuthenticated()}`)
         
         const fetchData = async () => {
             const sleepData = await getSleepData();

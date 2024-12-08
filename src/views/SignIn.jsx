@@ -8,7 +8,7 @@ import TextFieldCustom from './../components/textField/textField';
 import TypographyCustom from './../components/typography/typography';
 
 function SignIn() {
-    const { signIn } = useAuth();
+    const { signIn, setIsAuthenticated, getIsAuthenticated } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({
@@ -24,6 +24,7 @@ function SignIn() {
             setLoading(true);
             signIn(email, password)
                 .then(() => {
+                    setIsAuthenticated(true)
                     setLoading(false);
                     navigation("/")
                 })

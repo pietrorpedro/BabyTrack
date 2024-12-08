@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 function SignOut() {
-    const { signOut } = useAuth();
+    const { signOut, setIsAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         async function handleSignOut() {
             try {
+                setIsAuthenticated(false);
                 await signOut();
                 navigate('/signin');
             } catch (error) {
